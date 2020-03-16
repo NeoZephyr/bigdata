@@ -76,3 +76,43 @@ java 序列化是一个重量级序列号框架，一个对象被序列化之后
 3. 每一个 split 切片分配一个 map task 进行处理
 4. map task 并行度由客户端在提交 job 时决定
 
+
+## 数据压缩
+### 压缩原则
+1. 运算密集型 job，少用压缩
+2. IO 密集型 job，多用压缩
+
+### 压缩方式
+#### gzip
+优点：压缩率高，压缩速度快；hadoop 支持；linux 自带命令
+缺点：不支持 split
+
+#### bzip2
+优点：支持 split；具有很高的压缩率；hadoop 支持
+缺点：压缩、解压缩慢
+
+#### leo
+优点：压缩、解压缩比较快，压缩率合理；支持 split
+缺点：压缩率比 gzip 低；hadoop 不支持
+
+#### snappy
+优点：压缩速度快，压缩率合理
+缺点：不支持 split；压缩率比 gzip 低；hadoop 不支持
+
+
+## 优化
+### 数据输入
+1. 合并小文件
+2. 采用 CombineTextInputFormat 作为输入
+
+### map
+1. 减少溢写次数，从而减少磁盘 io
+2. 减少合并次数
+3. 先进行 combine 处理，减少 io
+
+### reduce
+1. 合理设置 map 和 reduce 数
+2. 设置 map 和 reduce 共存
+3. 规避使用 reduce
+4. 合理设置 reduce 端的 buffer
+

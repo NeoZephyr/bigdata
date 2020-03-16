@@ -91,8 +91,15 @@ filename=`basename $p1`
 pdir=`cd -P $(dirname $p1); pwd`
 user=`whoami`
 
-for((number=103; number<105; number++)); do
-    rsync -av $pdir/$fname $user@hadoop$number:$pdir
+for((number=1; number<=3; number++)); do
+    rsync -av $pdir/$fname $user@node$number:$pdir
+done
+```
+```sh
+#!/bin/bash
+for i in node01 node02 node03
+do
+    ssh $i "source /etc/profile && jps | grep -v Jps"
 done
 ```
 

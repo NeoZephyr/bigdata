@@ -130,6 +130,20 @@ public class ApiTest {
     }
 
     @Test
+    public void listBlockInfo() throws IOException {
+        FileStatus fileStatus = fileSystem.getFileStatus(new Path("/hello/hadoop-3.1.2.tar.gz"));
+        BlockLocation[] fileBlockLocations = fileSystem.getFileBlockLocations(fileStatus, 0, fileStatus.getLen());
+
+        for (BlockLocation fileBlockLocation : fileBlockLocations) {
+            String[] names = fileBlockLocation.getNames();
+            for (String name : names) {
+                System.out.println(String.format("name: %s, offset: %d, length: %d, hosts: %s",
+                        name, fileBlockLocation.getOffset(), fileBlockLocation.getLength(), Arrays.toString(fileBlockLocation.getHosts())));
+            }
+        }
+    }
+
+    @Test
     public void delete() throws IOException {
         fileSystem.delete(new Path("/user"), true);
     }
