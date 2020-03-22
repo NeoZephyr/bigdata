@@ -1,53 +1,90 @@
-create -s 带序号
-create -e 临时
+## zookeeper 特点
+1. 一个 leader，多个 follower
+2. 集群中只要有半数以上的节点存活，zookeeper 集群就能正常工作
+3. 全局一致性，每个 server 保存一份相同的数据副本
+4. 更新请求顺序进行，来自同一个 client 的更新请求按其发送顺序依次执行
+5. 数据更新原子性，一次数据更新要么成功，要么失败
+6. 实时性，在一定时间范围内，客户端能读到最新数据
 
 
-get /test watch
-ls /test watch
+## zookeeper 结构
+zookeeper 的数据模型可以看成一棵树，每个节点都是一个 ZNode。每一个 ZNode 默认能够存储 1MB 的数据
 
+
+## zookeeper 应用场景
+统一命名服务
+统一配置管理
+统一集群管理
+服务器节点动态上下线
+
+
+## 客户端操作
+查看
 ```sh
-zkCli.sh
-
 ls -R /
+ls / watch
+```
+
+创建
+```sh
 create /app1
 create /app2
+```
+```sh
+# 临时节点
+create -e /master "m"
+```
+```sh
+# 顺序节点
+create -s /master "m"
+```
 
-# 创建锁
-create -e /lock
+获取节点信息
+```sh
+get /app1
+
+# 监听节点值变化
+get /app1 watch
+```
+
+修改节点值
+```sh
+set /app1 "app1"
+```
+
+删除节点
+```sh
+delete /app1
+
+# 递归删除节点
+rmr /app1/master
+```
+
+节点状态
+```sh
+stat /app1
 
 # 监控
-stat -w /lock
+stat -w /app1
 ```
 
-```sh
-create -e /master "m1:6969"
-create -e /master "m2:6969"
-stat -w /master
-```
-```sh
-ls -w /workers
-create -e /workers/w1 "w1:9696"
-```
 
-zookeeper 数据一致性
-1. 先到达 leader 的写请求先处理
-2. 来自给定客户端的请求按照发送顺序执行
+## stat 结构
+每次修改 zookeeper 状态都会收到一个 zxid 形式的时间戳，也就是 zookeeper 事务 id。事务 id 是 zookeeper 中所有修改总的次序。如果 zxid1 小于 zxid2，那么 zxid1 在 zxid2 之前发生
 
-集群配置
-```sh
-dataDir=/data/zk/quorum/node1
-clientPort=2181
+czxid：创建节点的事务 zxid
+ctime：znode 被创建的毫秒数
+mzxid：znode 最后更新的事务 zxid
+mtime：znode 最后修改的毫秒数
+pzxid：znode 最后更新的子节点 zxid
+cversion：znode 子节点变化号，znode 子节点修改次数
+dataversion：znode 数据变化号
+aclVersion：znode 访问控制列表的变化号
+ephemeralOwner：临时节点拥有者的 session id
+dataLength：znode 的数据长度
+numChildren：znode 子节点数量
 
-# 前一个端口用于 quorum 通信，后一个端口用于 leader 选举端口
-server.1=127.0.0.1:3330:3333
-server.2=127.0.0.1:4440:4444
-server.3=127.0.0.1:5550:5555
-```
-在为每个 zookeeper 节点的 data 目录下创建 myid 文件，内容分别为 1, 2, 3
 
-```sh
-zkCli.sh -server 127.0.0.1:2181,127.0.0.1:2182,127.0.0.1:2183
-```
 
 条件更新
 ```sh

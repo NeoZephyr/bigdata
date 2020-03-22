@@ -179,20 +179,25 @@ yarn-daemon.sh stop nodemanager
 
 ## 集群间数据拷贝
 ```sh
-hadoop distcp hdfs://node01:9000/user hdfs://node02:9000/user
+hadoop distcp hdfs://ns1:9000/user hdfs://ns2:9000/user
 ```
 
 
 ## 小文件处理
 ```sh
 # 归档
-hadoop archive -archiveName input.har –p /input /input_bak
+hadoop archive -archiveName input.har –p /input /input_archive
 
-hadoop fs -lsr har:///iuput_bak/input.har
+hadoop fs -lsr har:///input_archive/input.har
 
 # 解档
-hadoop fs -cp har:///input_bak/input.har/* /input
+hadoop fs -cp har:///input_archive/input.har/* /input
+
+hadoop jar <appJar> wordcount har:///input_archive/input.har /archive_out
 ```
+
+
+## 垃圾回收
 
 
 ## hdfs 优点
