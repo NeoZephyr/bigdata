@@ -140,8 +140,10 @@ load data local inpath '/home/vagrant/player.txt' overwrite into table player;
 select count(*) from player;
 ```
 
+使用 hiveserver
+
 ```sh
-hiveserver2
+nohup hiveserver2 &
 ```
 ```sh
 beeline
@@ -150,4 +152,7 @@ beeline
 
 ```sh
 !clear;
+!ls /;
+
+dfs ls /;
 ```
