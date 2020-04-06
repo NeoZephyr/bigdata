@@ -1,13 +1,10 @@
 ## 变量
 ```scala
-var name : String = "pain"
-var age : Int = 28
-val height :Float = 1.65f
+var name: String = "pain"
+var age: Int = 28
+val height: Float = 1.65f
 
 var address = "wuhan"
-```
-```scala
-val name : String = "jack"
 ```
 ```scala
 lazy val res = sum(10, 20)
@@ -50,22 +47,12 @@ for (i <- 1 to 5 if i != 2) {
 }
 ```
 ```scala
-for (i <- range(1, 5, 2)) {
+for (i <- Range(1, 5, 2)) {
     println(s"i = ${i}")
-}
-
-var res = for (i <- range(1, 5, 2)) {
-    yield i * 2
 }
 ```
 
 ```scala
-for (i <- 1 to 5) {
-    if (i == 2) {
-        Breaks.break()
-    }
-}
-
 Breaks.breakable {
     for (i <- 1 to 5) {
         if (i == 2) {
@@ -103,7 +90,7 @@ def sum(numbers: Int*): Int = {
 ```
 
 ```scala
-def hello(name : String = "pain") : Unit = {
+def hello(name: String = "pain") : Unit = {
     println(s"hello, ${name}")
 }
 
@@ -113,7 +100,7 @@ hello(name = "jack")
 
 函数作为返回值
 ```scala
-def hello(name : String = "pain") : Unit = {
+def hello(name: String = "pain") : Unit = {
     println(s"hello, ${name}")
 }
 
@@ -121,20 +108,8 @@ def getHelloFunc() = {
     hello _
 }
 
-getHelloFunc()("jack")
-```
-
-闭包
-```scala
-def f1(i : Int) = {
-    def f2(j : Int) {
-        return i * j
-    }
-
-    f2 _
-}
-
-f1(1)(2)
+val helloFunc = getHelloFunc()
+helloFunc("jack")
 ```
 
 函数作为参数
@@ -154,6 +129,19 @@ f((x) => {
 })
 ```
 
+闭包
+```scala
+def f1(i : Int) = {
+    def f2(j : Int) {
+        return i * j
+    }
+
+    f2 _
+}
+
+f1(1)(2)
+```
+
 函数简化过程
 ```scala
 def f(add : (Int, Int) => Int) : Int = {
@@ -161,25 +149,15 @@ def f(add : (Int, Int) => Int) : Int = {
 }
 
 println(f((x: Int, y: Int) => { x + y }))
-println(f((x, y) => { x + y }))
-println(f((x, y) => x + y))
-println(f(_ + _))
-```
-```scala
-list.map((x: Int) => x + 1)
+
 // 自动推断出类型
-list.map((x) => x + 1)
-// 只有一个参数，省略括号
-list.map(x => x + 1)
+println(f((x, y) => { x + y }))
+
+// 如果只有一个参数，省略括号
+println(f((x, y) => x + y))
+
 // 使用占位符
-list.map(_ + 1)
-
-list.map(_ * 2).filter(_ > 8)
-
-list.flatten
-```
-```scala
-val text = scala.io.Source.fromFile("hello.txt").mkString
+println(f(_ + _))
 ```
 
 偏函数
@@ -191,20 +169,142 @@ def hello: PartialFunction[String, String] = {
 }
 ```
 
+
+## 集合
+数组
 ```scala
-try {
-    val r = 10 / 0
-} catch {
-    case ex: RuntimeException => println("runtime exception")
-    case ex: Exception => println("catch exception")
-} finally {
-    println("scala finally")
+val players: Array[String] = Array("pain", "jack", "slog")
+
+println(players(0))
+println(players.mkString("|"))
+
+for (player <- players) {
+    println(player)
 }
+
+players.foreach(println)
+```
+
+```scala
+var players: ArrayBuffer[String] = ArrayBuffer("pain", "tack")
+players(0) = "jelin"
+players.insert(0, "fony")
+players += "taylor"
+```
+
+列表
+```scala
+var lines = List("spark streaming", "kafka streaming", "kafka spark", "spark hbase", "spark hive", "spark sql")
+lines = lines.filter(lines => !lines.contains("hbase"))
+
+// var nestedWords = lines.map(e => e.split(" "))
+// var words = nestedWords.flatten
+
+var words = lines.flatMap(e => e.split(" "))
+val wordToListMap = flatWords.groupBy(word => word)
+val wordToCount = wordToListMap.map(e => (e._1, e._2.size))
+val sortWordList = wordToCount.toList.sortWith((left, right) => {left._2 > right._2})
+println(sortWordList.take(3))
+```
+
+```scala
+var nums = List(1, 2, 3, 4, 5)
+println(nums.reduce((left, right) => left - right))
+println(nums.reduce(_ + _))
+println(nums.fold(100)(_ + _))
+```
+
+```scala
+val ints = List(1, 2, 3, "hello").collect {
+  case i: Int => i + 10
+}
+
+println(ints)
+```
+
+```scala
+val tuples = list1.zip(list2)
+```
+```scala
+val unionList = list1.union(list2)
+```
+```scala
+val intersectList = list1.intersect(list2)
+```
+```scala
+val diffList = list1.diff(list2)
+```
+
+集合
+```scala
+val set = Set(1, 1, 2, 3)
+```
+
+映射
+```scala
+val map = Map("jack" -> 100, "pain" -> 90)
+```
+
+元组
+```scala
+val tuple = ("jack", "28", "19000")
+val (name, age, salary) = tuple
 ```
 
 
+## 模式匹配
+```scala
+grade match {
+    case "A" => println("Excellent")
+    case "B" => println("Good")
+    case _ if (name == "pain") => println("Good")
+    case _ => println("Ok")
+}
+```
+```scala
+array match {
+  case Array(_) => println("only one element")
+  case Array(_, _) => println("two element")
+  case Array(_*) => println("many element")
+  case _ => println("unknown")
+}
+```
+```scala
+list match {
+    case "jack"::Nil => println("one elem")
+    case x::y::Nil => println(s"two elem, ${x}, ${y}")
+    case "jack"::tail => println("many elem")
+    case _ => println("unknow elem")
+}
+```
+```scala
+obj match {
+    case x: Int => println("int")
+    case s: String => println("string")
+    case m: Map[_, _] => m.foreach(println)
+    case _ => println("unknow type")
+}
+```
+```scala
+class Person
+case class Student(name: String)
+case class Teacher(name: String)
 
+person match {
+    case Student(name) => println("student")
+    case Teacher(name) => println("teacher")
+    case _ => println("other")
+}
+```
 
+```scala
+try {
+    10 / 0
+} catch {
+    case e: ArithmeticException => println("can not be 0")
+    case e: Exception => println(e.getMessage)
+} finally {}
+```
 
 
 ## 类
@@ -267,6 +367,22 @@ var user = new User("hello")
 println(user.name)
 ```
 
+伴生对象与伴生类
+```scala
+class User {
+    var name: String = "pain"
+}
+
+object User {    
+    def apply(name: String): User = new User
+}
+```
+```scala
+val user = User("jack")
+```
+
+
+## trait
 ```scala
 trait Sleep {}
 trait Eat {}
@@ -292,187 +408,12 @@ val mysql = new Mysql() with InsertOption
 mysql.insert()
 ```
 
-伴生对象与伴生类
-```scala
-class User {
-    var name: String = "pain"
-}
 
-object User {    
-    def apply(name: String): User = new User
-}
-```
-```scala
-val user = User("jack")
-```
-
-
-```scala
-val players: Array[String] = Array("pain", "jack", "slog")
-
-println(players(0))
-println(players.mkString("|"))
-
-for (player <- players) {
-    println(player)
-}
-
-players.foreach(player => println(player))
-players.foreach(println(_))
-players.foreach(println)
-```
-
-```scala
-var players: ArrayBuffer[String] = ArrayBuffer("pain", "tack")
-players(0) = "jelin"
-players.insert(0, "fony")
-players += "taylor"
-```
-
-```scala
-val list = List("001-jack", "001-pain", "002-page", "003-path")
-
-println(s"sum = ${list.sum}")
-println(s"reverse = ${list.reverse}")
-
-val map = list.groupBy(e => e.substring(0, 3))
-map.foreach(e => {println(e._1 + " = " + e._2)})
-
-var sortList = list.sortBy(e => e.substring(4))
-
-var ascList = list.sortWith((x, y) => {x < y})
-
-var tuples = list.map(x => {(x, 1)})
-```
-```scala
-val words = List("spark", "kafka", "spark", "hbase", "hive", "spark", "kafka")
-val wordToListMap = words.groupBy(word => word)
-val wordToCountMap = wordToListMap.map(e => {(e._1, e._2.size)})
-val sortList = wordToCountMap.toList.sortWith((left, right) => {left._2 > right._2})
-val resultList = sortList.take(3)
-
-println(resultList.mkString(","))
-```
-```scala
-val lines = List("Hello World", "Hello Scala", "Hello Hadoop")
-lines.flatMap(e => e.split(" "))
-```
-```scala
-val words = List("spark", "kafka", "spark", "hbase", "hive", "spark", "kafka")
-val filterWords = words.filter(e => e.startWith("s"))
-```
-```scala
-val tuples = list1.zip(list2)
-```
-```scala
-val unionList = list1.union(list2)
-```
-```scala
-val intersectList = list1.intersect(list2)
-```
-```scala
-val diffList = list1.diff(list2)
-```
-
-```scala
-list.reduce((left, right) => {left + right})
-list.reduce(_ + _)
-```
-
-```scala
-list.fold(100)(_ + _)
-```
-
-```scala
-map1.folder(map2)((map, t) => {
-    map(t._1) = map.getOrElse(t._1, 0) + t._2
-    map
-})
-```
-
-
-```scala
-val set = Set(1, 1, 2, 3)
-```
-
-```scala
-val map = Map("jack" -> 100, "pain" -> 90)
-```
-
-```scala
-val tuple = ("jack", "28", "19000")
-val (name, age, salary) = tuple
-```
-
-```scala
-List(1, 2, 3, "hello").collect{case i: Int => i + 1}
-```
-
+## 泛型
 ```scala
 def test[T <: User](t: T): Unit = {}
 
 test[User](new User())
 
 class Test[+User] {}
-```
-
-```scala
-grade match {
-    case "A" => println("Excellent")
-    case "B" => println("Good")
-    case _ if (name == "pain") => println("Good")
-    case _ => println("Ok")
-}
-```
-```scala
-array match {
-    case Array("jack") => println("one elem")
-    case Array(x, y) => println(s"two elem, ${x}, ${y}")
-    case Array("pain", _*) => println("many elem")
-    case _ => println("unknow elem")
-}
-```
-```scala
-list match {
-    case "jack"::Nil => println("one elem")
-    case x::y::Nil => println(s"two elem, ${x}, ${y}")
-    case "jack"::tail => println("many elem")
-    case _ => println("unknow elem")
-}
-```
-```scala
-obj match {
-    case x: Int => println("int")
-    case s: String => println("string")
-    case m: Map[_, _] => m.foreach(println)
-    case _ => println("unknow type")
-}
-```
-```scala
-try {
-    10 / 0
-} catch {
-    case e: ArithmeticException => println("can not be 0")
-    case e: Exception => println(e.getMessage)
-} finally {}
-```
-```scala
-class Person
-case class Student(name: String)
-case class Teacher(name: String)
-
-person match {
-    case Student(name) => println("student")
-    case Teacher(name) => println("teacher")
-    case _ => println("other")
-}
-```
-
-
-样例类
-```scala
-case class Cat(name: String) 
-```
-```scala
-println(Cat("jack").name)
 ```

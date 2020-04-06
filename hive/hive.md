@@ -217,7 +217,7 @@ on u.dept_code = d.code;
 ```
 
 ```sql
-explain
+explain extended
 select u.name, d.name
 from user u join dept d
 on u.dept_code = d.code;
@@ -639,4 +639,15 @@ set hive.exec.mode.local.auto.inputbytes.max=50000000;
 ```
 set hive.exec.mode.local.auto.input.files.max=10;
 ```
+
+设置自动选择 Mapjoin，将小表加载到内存，以便在 map 阶段进行 join，避免 reducer 处理
+大表小表的阈值设置，默认 25M 以下是小表
+```
+set hive.auto.convert.join = true;
+set hive.mapjoin.smalltable.filesize=25000000;
+```
+
+
+空 key 过滤
+将空 key 赋值为一个随机的值，使得数据随机均匀地分不到不同的 reducer 上
 
