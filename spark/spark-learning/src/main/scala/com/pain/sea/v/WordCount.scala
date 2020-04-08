@@ -1,4 +1,4 @@
-package com.pain.sea
+package com.pain.sea.v
 
 import org.apache.spark.{SparkConf, SparkContext}
 

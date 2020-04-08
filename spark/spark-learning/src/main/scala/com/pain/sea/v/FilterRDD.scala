@@ -1,16 +1,16 @@
-package com.pain.sea
+package com.pain.sea.v
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
-object GroupByRDD {
+object FilterRDD {
     def main(args: Array[String]): Unit = {
-        val sparkConf = new SparkConf().setAppName("groupBy rdd").setMaster("local[*]")
+        val sparkConf = new SparkConf().setAppName("filter rdd").setMaster("local[*]")
         val sparkContext = new SparkContext(sparkConf)
 
         val rdd: RDD[Int] = sparkContext.makeRDD(1 to 16)
-        val groupByRdd: RDD[(Int, Iterable[Int])] = rdd.groupBy(_ % 3)
+        val filterRdd: RDD[Int] = rdd.filter(_ % 3 == 0)
 
-        groupByRdd.collect().foreach(println)
+        filterRdd.collect().foreach(println)
     }
 }
