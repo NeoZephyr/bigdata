@@ -25,3 +25,15 @@ lineage 过长会造成容错成本过高，如果之后有节点出现问题而
 
 在 checkpoint 的过程中，该 RDD 的所有依赖于父 RDD 中的信息将全部被移除。对 RDD 进行 checkpoint 操作并不会马上被执行，必须执行 Action 操作才能触发
 
+
+
+
+当 Spark 读取 HDFS 文件作为输入时，会根据具体数据格式对应的 InputFormat 进行解析，形成分片 InputSplit
+
+为输入分片生成具体的 Task，InputSplit 与 Task 是一一对应的
+
+将 Task 分配到集群上的某个节点的某个 Executor 去执行，每个节点可以起一个或多个 Executor，每个 Executor 由若干 core 组成，每个 Executor 的每个 core 一次只能执行一个 Task
+
+每个 Task 执行的结果就是生成了目标 RDD 的一个 partiton
+
+Task 执行并发度 = Executor 数目 * Executor 核数
