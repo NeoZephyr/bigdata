@@ -1,4 +1,4 @@
-package com.pain.sea.partitioner
+package com.pain.sea.core.partitioner
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{HashPartitioner, Partitioner, SparkConf, SparkContext}

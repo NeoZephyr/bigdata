@@ -1,4 +1,4 @@
-package com.pain.sea.lineage
+package com.pain.sea.core.lineage
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}

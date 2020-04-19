@@ -1,4 +1,4 @@
-package com.pain.sea.checkpoint
+package com.pain.sea.core.checkpoint
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}

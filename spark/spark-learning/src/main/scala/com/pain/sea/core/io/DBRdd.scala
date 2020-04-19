@@ -1,4 +1,4 @@
-package com.pain.sea.io
+package com.pain.sea.core.io
 
 import java.sql.{Connection, DriverManager, PreparedStatement}
 

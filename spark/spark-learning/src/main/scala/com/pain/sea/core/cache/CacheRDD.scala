@@ -1,4 +1,4 @@
-package com.pain.sea.cache
+package com.pain.sea.core.cache
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}

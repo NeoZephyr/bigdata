@@ -1,4 +1,4 @@
-package com.pain.sea.pass
+package com.pain.sea.core.pass
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}

@@ -1,4 +1,4 @@
-package com.pain.sea.v
+package com.pain.sea.core.v
 
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD

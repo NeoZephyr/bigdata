@@ -1,4 +1,4 @@
-package com.pain.sea.accumulator
+package com.pain.sea.core.accumulator
 
 import java.util
 
