@@ -14,18 +14,18 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <!--    <hadoop.version>2.6.0-cdh5.7.0</hadoop.version>-->
-        <hadoop.version>3.1.2</hadoop.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <hadoop.version>2.6.0-cdh5.15.1</hadoop.version>
+<!--        <hadoop.version>3.1.2</hadoop.version>-->
     </properties>
 
-    <!--  <repositories>-->
-    <!--    <repository>-->
-    <!--      <id>cloudera</id>-->
-    <!--      <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>-->
-    <!--    </repository>-->
-    <!--  </repositories>-->
+    <repositories>
+        <repository>
+            <id>cloudera</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <!--    <dependency>-->
@@ -64,6 +64,13 @@
             <version>2.8.2</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -72,38 +79,38 @@
         </dependency>
     </dependencies>
 
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>2.3.2</version>-->
-<!--                <configuration>-->
-<!--                    <source>1.8</source>-->
-<!--                    <target>1.8</target>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <artifactId>maven-assembly-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <descriptorRefs>-->
-<!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
-<!--                    </descriptorRefs>-->
-<!--                    <archive>-->
-<!--                        <manifest>-->
-<!--                            <mainClass>com.pain.red.wordcount.WordcountDriver</mainClass>-->
-<!--                        </manifest>-->
-<!--                    </archive>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>make-assembly</id>-->
-<!--                        <phase>package</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>single</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <version>2.3.2</version>-->
+    <!--                <configuration>-->
+    <!--                    <source>1.8</source>-->
+    <!--                    <target>1.8</target>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                <artifactId>maven-assembly-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <descriptorRefs>-->
+    <!--                        <descriptorRef>jar-with-dependencies</descriptorRef>-->
+    <!--                    </descriptorRefs>-->
+    <!--                    <archive>-->
+    <!--                        <manifest>-->
+    <!--                            <mainClass>com.pain.red.wordcount.WordcountDriver</mainClass>-->
+    <!--                        </manifest>-->
+    <!--                    </archive>-->
+    <!--                </configuration>-->
+    <!--                <executions>-->
+    <!--                    <execution>-->
+    <!--                        <id>make-assembly</id>-->
+    <!--                        <phase>package</phase>-->
+    <!--                        <goals>-->
+    <!--                            <goal>single</goal>-->
+    <!--                        </goals>-->
+    <!--                    </execution>-->
+    <!--                </executions>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
 </project>

@@ -17,13 +17,13 @@ public class ApiTest {
     FileSystem fileSystem = null;
     Configuration configuration = null;
 
-    public static final String HDFS_URL = "hdfs://lab:9000";
+    public static final String HDFS_URL = "hdfs://hadoop000:8020";
 
     @Before
     public void setUp() throws Exception {
-        System.out.println("HDFSApp.setUp");
+        System.out.println("======== setUp ========");
         configuration = new Configuration();
-        fileSystem = FileSystem.get(new URI(HDFS_URL), configuration, "vagrant");
+        fileSystem = FileSystem.get(new URI(HDFS_URL), configuration, "pain");
     }
 
     @After
@@ -31,16 +31,17 @@ public class ApiTest {
         fileSystem.close();
         configuration = null;
         fileSystem = null;
-        System.out.println("HDFSApp.tearDown");
+        System.out.println("======== tearDown ========");
     }
 
     @Test
     public void mkdir() throws Exception {
-        fileSystem.mkdirs(new Path("/hdfs/test-3-7"));
+        fileSystem.mkdirs(new Path("/hdfs/summer"));
     }
 
     @Test
     public void create() throws IOException {
+        // default replication: 3
         FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path("/hdfs/test/hello"));
         fsDataOutputStream.write("hello hdfs".getBytes());
         fsDataOutputStream.flush();
@@ -49,7 +50,7 @@ public class ApiTest {
 
     @Test
     public void read() throws IOException {
-        FSDataInputStream fsDataInputStream = fileSystem.open(new Path("/hdfs/test/hello"));
+        FSDataInputStream fsDataInputStream = fileSystem.open(new Path("/hdfs/hadoop.txt"));
         IOUtils.copyBytes(fsDataInputStream, System.out, 1024);
         System.out.println();
         fsDataInputStream.close();
@@ -57,8 +58,8 @@ public class ApiTest {
 
     @Test
     public void rename() throws IOException {
-        Path srcPath = new Path("/hdfs/test/hello");
-        Path destPath = new Path("/hdfs/test/hello-bak");
+        Path srcPath = new Path("/hdfs/hadoop.txt");
+        Path destPath = new Path("/hdfs/hdfs.txt");
         fileSystem.rename(srcPath, destPath);
     }
 
@@ -75,7 +76,7 @@ public class ApiTest {
                 new FileInputStream(
                         new File("/Users/pain/Downloads/package/kafka_2.12-2.3.0.tgz")));
 
-        FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path("/hdfs/test/kafka_2.12-2.3.0.tgz"), new Progressable() {
+        FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path("/hdfs/kafka_2.12-2.3.0.tgz"), new Progressable() {
             @Override
             public void progress() {
                 System.out.print(".");
@@ -131,15 +132,12 @@ public class ApiTest {
 
     @Test
     public void listBlockInfo() throws IOException {
-        FileStatus fileStatus = fileSystem.getFileStatus(new Path("/hello/hadoop-3.1.2.tar.gz"));
+        FileStatus fileStatus = fileSystem.getFileStatus(new Path("/hdfs/hadoop.txt"));
         BlockLocation[] fileBlockLocations = fileSystem.getFileBlockLocations(fileStatus, 0, fileStatus.getLen());
 
         for (BlockLocation fileBlockLocation : fileBlockLocations) {
-            String[] names = fileBlockLocation.getNames();
-            for (String name : names) {
-                System.out.println(String.format("name: %s, offset: %d, length: %d, hosts: %s",
-                        name, fileBlockLocation.getOffset(), fileBlockLocation.getLength(), Arrays.toString(fileBlockLocation.getHosts())));
-            }
+            System.out.println(String.format("name: %s, offset: %d, length: %d, hosts: %s",
+                    Arrays.toString(fileBlockLocation.getNames()), fileBlockLocation.getOffset(), fileBlockLocation.getLength(), Arrays.toString(fileBlockLocation.getHosts())));
         }
     }
 

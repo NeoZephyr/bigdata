@@ -32,7 +32,7 @@ public class OrderMapper extends Mapper<LongWritable, Text, Text, NullWritable> 
             productIdToName.put(items[0], items[1]);
         }
 
-        IOUtils.closeStreams(bufferedReader);
+        IOUtils.closeStream(bufferedReader);
     }
 
     @Override

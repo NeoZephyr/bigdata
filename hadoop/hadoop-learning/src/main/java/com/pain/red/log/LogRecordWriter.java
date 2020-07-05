@@ -37,6 +37,7 @@ public class LogRecordWriter extends RecordWriter<LongWritable, Text> {
 
     @Override
     public void close(TaskAttemptContext context) throws IOException, InterruptedException {
-        IOUtils.closeStreams(hadoopStream, sparkStream);
+        IOUtils.closeStream(hadoopStream);
+        IOUtils.closeStream(sparkStream);
     }
 }

@@ -54,6 +54,7 @@ localhost
 ```sh
 ssh-keygen -t rsa
 cat ~/.ssh/id_rsa.pub >> authorized_keys
+chmod 0600 ~/.ssh/authorized_keys
 ```
 
 
