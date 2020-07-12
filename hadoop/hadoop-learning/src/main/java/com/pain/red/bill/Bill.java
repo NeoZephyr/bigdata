@@ -1,4 +1,4 @@
-package com.pain.red.audit;
+package com.pain.red.bill;
 
 import org.apache.hadoop.io.Writable;
 
@@ -7,16 +7,26 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class Bill implements Writable {
+    private String name;
     private int income;
     private int expenses;
     private int savings;
 
     Bill() {}
 
-    Bill(int income, int expenses) {
+    public Bill(String name, int income, int expenses) {
+        this.name = name;
         this.income = income;
         this.expenses = expenses;
         this.savings = income - expenses;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getIncome() {
@@ -64,7 +74,8 @@ public class Bill implements Writable {
     @Override
     public String toString() {
         return "Bill{" +
-                "income=" + income +
+                "name='" + name + '\'' +
+                ", income=" + income +
                 ", expenses=" + expenses +
                 ", savings=" + savings +
                 '}';

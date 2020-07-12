@@ -1,4 +1,4 @@
-package com.pain.red.audit;
+package com.pain.red.bill;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -18,6 +18,8 @@ public class BillMapper extends Mapper<LongWritable, Text, Text, Bill> {
         String[] items = line.split("\\s+");
 
         System.out.println(Arrays.toString(items));
+
+        bill.setName(items[0]);
         bill.setIncome(Integer.parseInt(items[1]));
         bill.setExpenses(Integer.parseInt(items[2]));
         bill.updateSavings();

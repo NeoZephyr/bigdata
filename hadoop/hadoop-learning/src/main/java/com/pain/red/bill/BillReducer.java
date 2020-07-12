@@ -1,11 +1,12 @@
-package com.pain.red.audit;
+package com.pain.red.bill;
 
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class BillReducer extends Reducer<Text, Bill, Text, Bill> {
+public class BillReducer extends Reducer<Text, Bill, NullWritable, Bill> {
 
     private Bill bill = new Bill();
 
@@ -24,6 +25,6 @@ public class BillReducer extends Reducer<Text, Bill, Text, Bill> {
         bill.setExpenses(expensesSum);
         bill.updateSavings();
 
-        context.write(key, bill);
+        context.write(NullWritable.get(), bill);
     }
 }
