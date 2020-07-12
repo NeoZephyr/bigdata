@@ -7,10 +7,9 @@ import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,10 +19,12 @@ public class OrderMapper extends Mapper<LongWritable, Text, Text, NullWritable> 
     private Text k = new Text();
 
     @Override
-    protected void setup(Context context) throws IOException, InterruptedException {
+    protected void setup(Context context) throws IOException {
         URI[] cacheFiles = context.getCacheFiles();
         String path = cacheFiles[0].getPath();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+
+        // 指定 utf-8 编码
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(path), StandardCharsets.UTF_8));
 
         String line;
 
