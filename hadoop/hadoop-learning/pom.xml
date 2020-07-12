@@ -97,7 +97,7 @@
     <!--                    </descriptorRefs>-->
     <!--                    <archive>-->
     <!--                        <manifest>-->
-    <!--                            <mainClass>com.pain.red.wordcount.WordcountDriver</mainClass>-->
+    <!--                            <mainClass>com.pain.red.wordcount.WordCountDriver</mainClass>-->
     <!--                        </manifest>-->
     <!--                    </archive>-->
     <!--                </configuration>-->

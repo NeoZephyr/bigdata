@@ -17,13 +17,13 @@ public class ApiTest {
     FileSystem fileSystem = null;
     Configuration configuration = null;
 
-    public static final String HDFS_URL = "hdfs://hadoop000:8020";
+    public static final String HDFS_URL = "hdfs://cdh:8020";
 
     @Before
     public void setUp() throws Exception {
         System.out.println("======== setUp ========");
         configuration = new Configuration();
-        fileSystem = FileSystem.get(new URI(HDFS_URL), configuration, "pain");
+        fileSystem = FileSystem.get(new URI(HDFS_URL), configuration, "vagrant");
     }
 
     @After
@@ -36,13 +36,13 @@ public class ApiTest {
 
     @Test
     public void mkdir() throws Exception {
-        fileSystem.mkdirs(new Path("/hdfs/summer"));
+        fileSystem.mkdirs(new Path("/test"));
     }
 
     @Test
     public void create() throws IOException {
         // default replication: 3
-        FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path("/hdfs/test/hello"));
+        FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path("/test/hello.txt"));
         fsDataOutputStream.write("hello hdfs".getBytes());
         fsDataOutputStream.flush();
         fsDataOutputStream.close();
@@ -50,7 +50,7 @@ public class ApiTest {
 
     @Test
     public void read() throws IOException {
-        FSDataInputStream fsDataInputStream = fileSystem.open(new Path("/hdfs/hadoop.txt"));
+        FSDataInputStream fsDataInputStream = fileSystem.open(new Path("/test/hello.txt"));
         IOUtils.copyBytes(fsDataInputStream, System.out, 1024);
         System.out.println();
         fsDataInputStream.close();
@@ -58,15 +58,15 @@ public class ApiTest {
 
     @Test
     public void rename() throws IOException {
-        Path srcPath = new Path("/hdfs/hadoop.txt");
-        Path destPath = new Path("/hdfs/hdfs.txt");
+        Path srcPath = new Path("/test/tmp.md");
+        Path destPath = new Path("/test/note.md");
         fileSystem.rename(srcPath, destPath);
     }
 
     @Test
     public void copyFromLocalFile() throws IOException {
         Path srcPath = new Path("/Users/pain/Documents/bigdata/hadoop/hadoop-learning/src/test/java/hdfs/ApiTest.java");
-        Path destPath = new Path("/hdfs/test/");
+        Path destPath = new Path("/test");
         fileSystem.copyFromLocalFile(srcPath, destPath);
     }
 

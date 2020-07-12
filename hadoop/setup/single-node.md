@@ -53,7 +53,7 @@ localhost
 ## 免密钥登陆
 ```sh
 ssh-keygen -t rsa
-cat ~/.ssh/id_rsa.pub >> authorized_keys
+cat ~/.ssh/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
 chmod 0600 ~/.ssh/authorized_keys
 ```
 
