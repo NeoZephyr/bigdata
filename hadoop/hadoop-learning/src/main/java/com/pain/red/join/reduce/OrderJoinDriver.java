@@ -28,6 +28,9 @@ public class OrderJoinDriver {
 
         job.setGroupingComparatorClass(OrderGroupComparator.class);
 
+        Path outputPath = new Path(args[0]);
+        outputPath.getFileSystem(configuration).delete(outputPath, true);
+
         FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
