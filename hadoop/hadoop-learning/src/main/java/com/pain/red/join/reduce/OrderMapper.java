@@ -15,7 +15,7 @@ public class OrderMapper extends Mapper<LongWritable, Text, Order, NullWritable>
     private String filename;
 
     @Override
-    protected void setup(Context context) throws IOException, InterruptedException {
+    protected void setup(Context context) {
         FileSplit fileSplit = (FileSplit) context.getInputSplit();
         filename = fileSplit.getPath().getName();
     }
@@ -25,7 +25,7 @@ public class OrderMapper extends Mapper<LongWritable, Text, Order, NullWritable>
         String line = value.toString();
         String[] items = line.split("\\s+");
 
-        if (StringUtils.equals(filename, "order.md")) {
+        if (StringUtils.equals(filename, "order.txt")) {
             order.setId(Integer.parseInt(items[0]));
             order.setProductId(Integer.parseInt(items[1]));
             order.setProductName("");

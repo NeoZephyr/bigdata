@@ -70,6 +70,11 @@ public class Order implements WritableComparable<Order> {
         this.count = in.readInt();
     }
 
+    /**
+     * 先按照 productId 排序，productId 相同，则按照 productName 排序
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(Order o) {
         int result = Integer.compare(productId, o.productId);
