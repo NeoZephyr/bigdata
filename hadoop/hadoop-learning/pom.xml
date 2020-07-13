@@ -97,7 +97,7 @@
                     </descriptorRefs>
 <!--                    <archive>-->
 <!--                        <manifest>-->
-<!--                            <mainClass>com.pain.red.join.map.MapJoinDriver</mainClass>-->
+<!--                            <mainClass>com.pain.red.app.join.map.MapJoinDriver</mainClass>-->
 <!--                        </manifest>-->
 <!--                    </archive>-->
                 </configuration>
