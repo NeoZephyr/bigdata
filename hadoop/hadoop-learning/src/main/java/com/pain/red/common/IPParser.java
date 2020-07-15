@@ -1,10 +1,10 @@
 package com.pain.red.common;
 
 public class IPParser extends IPSeeker {
-    private static final String ipFilePath = "ip/qqwry.dat";
+//    private static final String ipFilePath = "ip/qqwry.dat";
 
     // 部署在服务器上
-    //private static final String ipFilePath = "/opt/datas/qqwry.dat";
+    private static final String ipFilePath = "/home/vagrant/data";
     private static IPParser obj = new IPParser(ipFilePath);
 
     protected IPParser(String ipFilePath) {

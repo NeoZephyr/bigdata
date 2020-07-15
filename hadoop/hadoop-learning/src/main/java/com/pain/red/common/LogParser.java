@@ -32,7 +32,7 @@ public class LogParser {
             logInfo.put("country",regionInfo.getCountry());
             logInfo.put("province",regionInfo.getProvince());
             logInfo.put("city",regionInfo.getCity());
-        } else{
+        } else {
             logger.error("日志记录的格式不正确：" + log);
         }
 
