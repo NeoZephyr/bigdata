@@ -118,9 +118,6 @@ select host, user, password from user;
 拷贝 mysql 驱动 jar 包到 HIVE_HOME/lib 目录
 
 ```sh
-schematool -dbType mysql -initSchema
-```
-```sh
 hive
 ```
 
@@ -132,10 +129,7 @@ use test;
 show tables;
 
 create table player(id int, name string) ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
-show tables;
-select * from player;
-
-load data local inpath '/home/vagrant/player.txt' overwrite into table player;
+load data local inpath '/home/vagrant/data/player.txt' overwrite into table player;
 
 select count(*) from player;
 ```

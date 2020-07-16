@@ -28,7 +28,6 @@ show databases like 'test*';
 create database if not exists test LOCATION '/user/hive/test'
 with DBPROPERTIES('creator'='pain');
 
-desc database test;
 desc database extended test;
 ```
 ```sql
