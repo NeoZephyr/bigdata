@@ -58,6 +58,7 @@ ssh-keygen -t rsa
 
 # 发送公钥到本机
 ssh-copy-id node01
+
 cat id_rsa.pub >> authorized_keys
 ```
 ```sh

@@ -23,6 +23,7 @@ local[*]: 按照 cpu 最多 cores 来设置线程数
 ```sh
 bin/spark-submit \
 --class org.apache.spark.examples.SparkPi \
+--master local \
 --executor-memory 1G \
 --total-executor-cores 2 \
 ./examples/jars/spark-examples_2.11-2.1.1.jar \
@@ -33,8 +34,6 @@ bin/spark-submit \
 --class: 应用启动类
 --deploy-mode: 默认为 client
 --conf: 配置属性，格式 key=value
-application-jar: jar 包
-application-arguments: main 方法参数
 --executor-memory: 每个 executor 的可用内存
 --total-executor-cores: 每个 executor 的可使用 cpu 核数
 
@@ -84,40 +83,8 @@ bin/spark-submit \
 100
 ```
 
-### Standalone 模式
-```sh
-cd spark/conf/
 
-mv slaves.template slaves
-mv spark-env.sh.template spark-env.sh
-```
-修改 slaves 文件，添加 worker 节点
-修改 spark-env.sh 文件，添加如下配置
-```
-SPARK_MASTER_HOST=lab
-SPARK_MASTER_PORT=6080
-```
-
-```sh
-sbin/start-all.sh
-```
-
-在 sbin 目录下的 spark-config.sh 文件中加入配置：
-```sh
-export JAVA_HOME=
-```
-
-```sh
-bin/spark-submit \
---class org.apache.spark.examples.SparkPi \
---master spark://lab:6080 \
---executor-memory 1G \
---total-executor-cores 2 \
-./examples/jars/spark-examples_2.11-2.1.1.jar \
-100
-```
-
-JobHistoryServer 配置
+## JobHistoryServer
 ```sh
 mv spark-defaults.conf.template spark-defaults.conf
 ```
@@ -140,7 +107,8 @@ export SPARK_HISTORY_OPTS="-Dspark.history.ui.port=18080
 sbin/start-history-server.sh
 ```
 
-HA 配置
+
+## HA 配置
 spark-env.sh
 ```sh
 export SPARK_DAEMON_JAVA_OPTS="
