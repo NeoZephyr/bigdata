@@ -14,7 +14,7 @@ object DataSourceApp {
         // commonDataSource(spark)
         // parquetDataSource(spark)
         // jdbcDataSource(spark)
-        configurableJdbcDataSource(spark)
+        // configurableJdbcDataSource(spark)
 
         // convert(spark)
     }

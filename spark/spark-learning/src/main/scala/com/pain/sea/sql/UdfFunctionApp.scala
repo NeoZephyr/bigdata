@@ -1,20 +1,18 @@
 package com.pain.sea.sql
 
-import org.apache.spark.SparkConf
-import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, SparkSession}
 
-object DataFrameSQL {
+object UdfFunctionApp {
     def main(args: Array[String]): Unit = {
-        val sparkConf = new SparkConf().setAppName("pass").setMaster("local[*]")
-        val spark: SparkSession = SparkSession.builder().config(sparkConf).getOrCreate()
-    }
+        val spark: SparkSession = SparkSession.builder().master("local").getOrCreate()
 
-    def udfTest(spark: SparkSession): Unit = {
-        spark.udf.register("upper", (text: String) => text.toUpperCase)
+        spark.udf.register("upper", (text: String) => text.toUpperCase())
         val dataFrame: DataFrame = spark.read.json("io/json/student.json")
         dataFrame.createOrReplaceTempView("student")
         val studentDataFrame: DataFrame = spark.sql("select id, upper(name) as name, score from student")
         studentDataFrame.show()
+
+        spark.stop()
     }
 
     def aggFuncUdfTest(spark: SparkSession): Unit = {
@@ -32,7 +30,7 @@ object DataFrameSQL {
         val scoreDataSet: Dataset[Double] = dataSet.select(avgScore)
         scoreDataSet.show()
     }
-}
 
-case class Student(id: Long, name: String, score: Long)
-case class Average(var sum: Long, var count: Long)
+    case class Student(id: Long, name: String, score: Long)
+    case class Average(var sum: Long, var count: Long)
+}

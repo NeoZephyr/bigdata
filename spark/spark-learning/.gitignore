@@ -31,3 +31,5 @@ build/
 .vscode/
 
 /output
+/metastore_db/
+/derby.log

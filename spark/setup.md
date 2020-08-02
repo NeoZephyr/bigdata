@@ -92,19 +92,31 @@ mv spark-defaults.conf.template spark-defaults.conf
 spark-defaults.conf
 ```
 spark.eventLog.enabled           true
-spark.eventLog.dir               hdfs://lab:9000/directory
+spark.eventLog.dir               hdfs://cdh:8020/directory
 ```
 
 spark-env.sh
 ```
 export SPARK_HISTORY_OPTS="-Dspark.history.ui.port=18080
 -Dspark.history.retainedApplications=30
--Dspark.history.fs.logDirectory=hdfs://lab:9000/directory"
+-Dspark.history.fs.logDirectory=hdfs://cdh:8020/directory"
 ```
 
 启动历史服务
 ```sh
 sbin/start-history-server.sh
+```
+
+
+## 访问 hive
+拷贝 hive-site.xml 到 spark 配置目录下
+spark jars 目录下添加 mysql 驱动
+
+```sh
+sbin/start-thriftserver.sh
+```
+```sh
+bin/beeline -n vagrant -u jdbc:hive2://cdh:10000
 ```
 
 
