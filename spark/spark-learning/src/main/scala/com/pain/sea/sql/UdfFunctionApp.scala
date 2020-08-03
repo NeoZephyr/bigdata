@@ -30,7 +30,7 @@ object UdfFunctionApp {
         val scoreDataSet: Dataset[Double] = dataSet.select(avgScore)
         scoreDataSet.show()
     }
-
-    case class Student(id: Long, name: String, score: Long)
-    case class Average(var sum: Long, var count: Long)
 }
+
+case class Student(id: Long, name: String, score: Long)
+case class Average(var sum: Long, var count: Long)
