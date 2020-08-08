@@ -19,7 +19,7 @@ object KuduApp {
 
         spark.read.format("org.apache.kudu.spark.kudu")
             .option("kudu.master", kuduMaster)
-            .option("kudu.table", "hero")
+            .option("kudu.table", "province_city_stat")
             .load().show()
     }
 

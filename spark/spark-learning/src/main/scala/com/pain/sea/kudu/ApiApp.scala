@@ -12,11 +12,11 @@ object ApiApp {
         val newTableName = "word_count_test"
         val kuduClient: KuduClient = new KuduClient.KuduClientBuilder(kudu_master).build()
 
-        createTable(kuduClient, "hero")
-        // deleteTable(kuduClient, "role")
+        // createTable(kuduClient, "hero")
+        // deleteTable(kuduClient, "province_city_stat")
 
         // insertTable(kuduClient, tableName)
-        // queryTable(kuduClient, tableName)
+        // queryTable(kuduClient, "ods")
 
         // updateTable(kuduClient, tableName)
 
