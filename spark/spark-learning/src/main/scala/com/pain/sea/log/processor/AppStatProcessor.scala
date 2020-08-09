@@ -4,19 +4,24 @@ import com.pain.sea.log.`trait`.DataProcess
 import com.pain.sea.log.utils.{KuduUtils, SQLUtils, SchemaUtils, TableUtils}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-object ProvinceCityStatProcessor extends DataProcess {
+object AppStatProcessor extends DataProcess{
     override def process(spark: SparkSession): Unit = {
+        val spark: SparkSession = SparkSession.builder().master("local").getOrCreate()
         val master = "cdh"
         val sourceTableName = TableUtils.getTableName("ods", spark)
-        val sinkTableName = TableUtils.getTableName("province_city_stat", spark)
+        val sinkTableName = TableUtils.getTableName("app_stat", spark)
         val dataFrame: DataFrame = spark.read.format("org.apache.kudu.spark.kudu")
             .option("kudu.master", master)
             .option("kudu.table", sourceTableName)
             .load()
 
         dataFrame.createOrReplaceTempView("ods")
-        val provinceCityDataFrame: DataFrame = spark.sql(SQLUtils.PROVINCE_CITY_SQL)
 
-        KuduUtils.sink(provinceCityDataFrame, sinkTableName, master, SchemaUtils.ProvinceCitySchema, "provincename")
+        val appTempDF: DataFrame = spark.sql(SQLUtils.APP_SQL_STEP1)
+        appTempDF.createOrReplaceTempView("app_tmp")
+
+        val appDF: DataFrame = spark.sql(SQLUtils.APP_SQL_STEP2)
+
+        KuduUtils.sink(appDF, sinkTableName, master, SchemaUtils.APPSchema, "appid")
     }
 }

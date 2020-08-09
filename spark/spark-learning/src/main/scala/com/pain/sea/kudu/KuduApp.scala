@@ -4,6 +4,7 @@ import java.util.Properties
 
 import com.typesafe.config.{Config, ConfigFactory}
 import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
+import org.json.JSONObject
 
 object KuduApp {
     def main(args: Array[String]): Unit = {
@@ -19,7 +20,7 @@ object KuduApp {
 
         spark.read.format("org.apache.kudu.spark.kudu")
             .option("kudu.master", kuduMaster)
-            .option("kudu.table", "province_city_stat")
+            .option("kudu.table", "app_stat")
             .load().show()
     }
 
@@ -45,5 +46,7 @@ object KuduApp {
             .write.mode(SaveMode.Append).format("org.apache.kudu.spark.kudu")
             .option("kudu.master", kuduMaster)
             .option("kudu.table", "hero").save()
+
+        JSONObject
     }
 }

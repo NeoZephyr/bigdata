@@ -1,7 +1,7 @@
 package com.pain.sea.log.processor
 
 import com.pain.sea.log.`trait`.DataProcess
-import com.pain.sea.log.utils.{IPUtils, KuduUtils, SQLUtils, SchemaUtils}
+import com.pain.sea.log.utils.{IPUtils, KuduUtils, SQLUtils, SchemaUtils, TableUtils}
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -9,7 +9,18 @@ object LogETLProcessor extends DataProcess {
     override def process(spark: SparkSession): Unit = {
         import spark.implicits._
 
-        val rdd: RDD[String] = spark.sparkContext.textFile("/Users/pain/Documents/bigdata/spark/spark-learning/input/ip.txt")
+        var rawPath: String = spark.sparkContext.getConf.get("spark.raw.path")
+        var ipPath: String = spark.sparkContext.getConf.get("spark.ip.path")
+
+        if (rawPath.isEmpty) {
+            rawPath = "/Users/pain/Documents/bigdata/spark/spark-learning/input/log.json"
+        }
+
+        if (ipPath.isEmpty) {
+            ipPath = "/Users/pain/Documents/bigdata/spark/spark-learning/input/ip.txt"
+        }
+
+        val rdd: RDD[String] = spark.sparkContext.textFile(ipPath)
         val ipDF: DataFrame = rdd.map(line => {
             val items: Array[String] = line.split("\\|")
             val startIp: Long = items(2).toLong
@@ -20,7 +31,7 @@ object LogETLProcessor extends DataProcess {
             (startIp, endIp, province, city, isp)
         }).toDF("start_ip", "end_ip", "province", "city", "isp")
 
-        var logDF: DataFrame = spark.read.json("/Users/pain/Documents/bigdata/spark/spark-learning/input/log.json")
+        var logDF: DataFrame = spark.read.json(rawPath)
 
         import org.apache.spark.sql.functions._
 
@@ -37,6 +48,9 @@ object LogETLProcessor extends DataProcess {
 
         val result: DataFrame = spark.sql(SQLUtils.SQL)
 
-        KuduUtils.sink(result, "ods", "cdh", SchemaUtils.ODSSchema, "ip")
+        val tableName = TableUtils.getTableName("ods", spark)
+        def master = "cdh"
+
+        KuduUtils.sink(result, tableName, master, SchemaUtils.ODSSchema, "ip")
     }
 }

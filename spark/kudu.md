@@ -85,4 +85,11 @@ yum install gcc python-devel
 yum install cyrus-sasl*
 ```
 
+权限问题解决
+```
+--rpc_authentication=disabled
+--rpc_encryption=disabled
+--trusted_subnets=0.0.0.0/0
+```
+
 webUI 8050
