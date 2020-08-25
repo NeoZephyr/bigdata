@@ -46,7 +46,5 @@ object KuduApp {
             .write.mode(SaveMode.Append).format("org.apache.kudu.spark.kudu")
             .option("kudu.master", kuduMaster)
             .option("kudu.table", "hero").save()
-
-        JSONObject
     }
 }

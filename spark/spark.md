@@ -1,3 +1,4 @@
+## 调度
 ```
 time=`date --date='1 day ago' +%Y%m%d`
 echo $time
@@ -18,3 +19,20 @@ ${SPARK_HOME}/bin/spark-submit \
 crontab -e 编辑
 crontab -l 查看
 crontab -r 删除
+
+
+## 调优
+--executor-memory MEM    1G
+
+--executor-cores NUM     1
+
+--num-executors          2
+
+--queue                  root.用户名
+
+
+map端缓冲区大小: spark.shuffle.file.buffer
+reduce端拉取数据缓冲区大小: spark.reducer.maxSizeInFlight
+reduce端拉取数据重试次数：spark.shuffle.io.maxRetries
+reduce端拉取数据等待间隔：spark.shuffle.io.retryWait
+
