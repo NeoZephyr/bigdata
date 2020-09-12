@@ -3,7 +3,7 @@ package com.pain.sea.core.action
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
-object ActionRDD {
+object ActionApp {
     def main(args: Array[String]): Unit = {
         val sparkConf = new SparkConf().setAppName("action").setMaster("local[*]")
         val sparkContext = new SparkContext(sparkConf)
@@ -14,10 +14,10 @@ object ActionRDD {
         // testFirst(sparkContext)
         // testTake(sparkContext)
         // testTakeOrdered(sparkContext)
-        // testAggregate(sparkContext)
+        testAggregate(sparkContext)
         // testFold(sparkContext)
         // testCountByKey(sparkContext)
-        testSaveAsFile(sparkContext)
+        // testSaveAsFile(sparkContext)
     }
 
     /**
@@ -36,7 +36,7 @@ object ActionRDD {
      */
     def testCollect(sparkContext: SparkContext): Unit = {
         val rdd: RDD[Int] = sparkContext.makeRDD(1 to 10)
-        rdd.collect().foreach(println)
+        println(rdd.collect().mkString(", "))
     }
 
     /**
@@ -53,7 +53,7 @@ object ActionRDD {
      * @param sparkContext
      */
     def testFirst(sparkContext: SparkContext): Unit = {
-        val rdd: RDD[Int] = sparkContext.makeRDD(1 to 10)
+        val rdd: RDD[Int] = sparkContext.makeRDD(List(10))
         println(rdd.first())
     }
 
@@ -63,7 +63,7 @@ object ActionRDD {
      */
     def testTake(sparkContext: SparkContext): Unit = {
         val rdd: RDD[Int] = sparkContext.makeRDD(1 to 10)
-        rdd.take(3).foreach(println)
+        println(rdd.take(3).mkString(", "))
     }
 
     /**
@@ -74,7 +74,6 @@ object ActionRDD {
         val rdd: RDD[Int] = sparkContext.makeRDD(List(598, 618, 221, 1221, 184, 1949))
         rdd.takeOrdered(3).foreach(println)
     }
-
 
     /**
      * 通过 seqOp 和初始值进行聚合，通过 combine 将每个分区的结果和初始值进行聚合
@@ -91,8 +90,8 @@ object ActionRDD {
      * @param sparkContext
      */
     def testFold(sparkContext: SparkContext): Unit = {
-        val rdd: RDD[Int] = sparkContext.makeRDD(1 to 10, 2)
-        val foldValue: Int = rdd.fold(0)(_ + _)
+        val rdd: RDD[Int] = sparkContext.makeRDD(1 to 10, 5)
+        val foldValue: Int = rdd.fold(100)(_ + _)
         println(foldValue)
     }
 

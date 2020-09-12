@@ -9,10 +9,6 @@ object KeyValueRDD {
         val sparkContext = new SparkContext(sparkConf)
 
         // partitionByTest(sparkContext)
-        // groupByKeyTest(sparkContext)
-        // reduceByKeyTest(sparkContext)
-        // sortByKeyTest(sparkContext)
-        // joinTest(sparkContext)
         // cogroupTest(sparkContext)
         // mapValuesTest(sparkContext)
         // aggregateByKeyTest(sparkContext)
@@ -36,51 +32,6 @@ object KeyValueRDD {
         })
         rdd2WithPartition.collect().foreach(println)
         println(s"rdd2 partition size: ${rdd2.partitions.length}")
-    }
-
-    //noinspection DuplicatedCode
-    def groupByKeyTest(sparkContext: SparkContext): Unit = {
-        val rdd: RDD[String] = sparkContext.makeRDD(Array("spark", "hbase", "spark", "hive", "spark", "hive"))
-        val wordToOneRdd: RDD[(String, Int)] = rdd.map((_, 1))
-        val groupByKeyRdd: RDD[(String, Iterable[Int])] = wordToOneRdd.groupByKey()
-
-        groupByKeyRdd.collect().foreach(item => {
-            val value = item._2.mkString(", ")
-            println(s"(${item._1}, (${value}))")
-        })
-
-        val sumRdd: RDD[(String, Int)] = groupByKeyRdd.map(x => (x._1, x._2.sum))
-        sumRdd.collect().foreach(println)
-    }
-
-    //noinspection DuplicatedCode
-    def reduceByKeyTest(sparkContext: SparkContext): Unit = {
-        val rdd: RDD[String] = sparkContext.makeRDD(Array("spark", "hbase", "spark", "hive", "spark", "hive"))
-        val wordToOneRdd: RDD[(String, Int)] = rdd.map((_, 1))
-
-        val reduceByKeyRdd: RDD[(String, Int)] = wordToOneRdd.reduceByKey(_ + _)
-        reduceByKeyRdd.collect().foreach(println)
-    }
-
-    def sortByKeyTest(sparkContext: SparkContext): Unit = {
-        val rdd: RDD[(String, Int)] = sparkContext.makeRDD(List(("leBron", 99), ("durant", 98), ("curry", 97), ("harden", 97)))
-
-        // key 必须实现 Ordered 接口
-        val ascRdd: RDD[(String, Int)] = rdd.sortByKey(true)
-        val descRdd: RDD[(String, Int)] = rdd.sortByKey(false)
-
-        ascRdd.collect().foreach(println)
-        descRdd.collect().foreach(println)
-    }
-
-    //noinspection DuplicatedCode
-    def joinTest(sparkContext: SparkContext): Unit = {
-        val rdd1: RDD[(String, Int)] = sparkContext.makeRDD(List(("leBron", 99), ("curry", 99), ("harden", 98)))
-        val rdd2: RDD[(String, Int)] = sparkContext.makeRDD(List(("durant", 99), ("leBron", 99), ("curry", 98)))
-
-        // 将 key 相同的数据聚合到一个元组
-        val joinRdd: RDD[(String, (Int, Int))] = rdd1.join(rdd2)
-        joinRdd.collect().foreach(println)
     }
 
     //noinspection DuplicatedCode

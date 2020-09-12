@@ -1,19 +1,3 @@
-## spark 重要角色
-### Driver
-主要负责以下任务：
-1. 把用户程序转为作业
-2. 跟踪 Executor 的运行状况
-3. 为执行器节点调度任务
-4. UI 展示应用运行状况
-
-### Executor
-Executor 是一个工作进程，负责在 Spark 作业中运行任务，任务间相互独立。Spark 应用启动时，Executor 节点被同时启动，并且始终伴随着整个 Spark 应用的生命周期而存在。如果有 Executor 节点发生了故障或崩溃，Spark 应用也可以继续执行，会将出错节点上的任务调度到其他 Executor 节点上继续运行
-
-主要负责以下任务：
-1. 负责运行组成 Spark 应用的任务，并将结果返回给驱动器进程
-2. 通过自身的块管理器为用户程序中要求缓存的 RDD 提供内存式存储。RDD 是直接缓存在 Executor 进程内的，因此任务可以在运行时充分利用缓存数据加速运算
-
-
 ## 运行模式
 ### Local 模式
 local: 所有计算都运行在一个线程中
@@ -83,12 +67,14 @@ bin/spark-submit \
 100
 ```
 
+spark.yarn.jars
+
 
 ## JobHistoryServer
+记录日志信息，需要提前创建目录
 ```sh
 mv spark-defaults.conf.template spark-defaults.conf
 ```
-
 spark-defaults.conf
 ```
 spark.eventLog.enabled           true
@@ -105,6 +91,11 @@ export SPARK_HISTORY_OPTS="-Dspark.history.ui.port=18080
 启动历史服务
 ```sh
 sbin/start-history-server.sh
+```
+
+停止历史服务
+```sh
+sbin/stop-history-server.sh
 ```
 
 
