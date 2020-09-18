@@ -1,7 +1,7 @@
-package com.pain.sea.core.base
+package com.pain.sea.core.base.transform
 
-import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.rdd.RDD
+import org.apache.spark.{SparkConf, SparkContext}
 
 object FilterApp {
     def main(args: Array[String]): Unit = {

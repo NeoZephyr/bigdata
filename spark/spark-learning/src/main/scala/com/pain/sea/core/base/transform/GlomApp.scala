@@ -1,4 +1,4 @@
-package com.pain.sea.core.base
+package com.pain.sea.core.base.transform
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}

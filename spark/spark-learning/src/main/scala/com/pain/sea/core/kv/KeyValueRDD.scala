@@ -8,30 +8,12 @@ object KeyValueRDD {
         val sparkConf = new SparkConf().setAppName("key value rdd").setMaster("local[*]")
         val sparkContext = new SparkContext(sparkConf)
 
-        // partitionByTest(sparkContext)
         // cogroupTest(sparkContext)
         // mapValuesTest(sparkContext)
         // aggregateByKeyTest(sparkContext)
         // combineByKeyTest(sparkContext)
-        foldByKeyTest(sparkContext)
+//        foldByKeyTest(sparkContext)
         sparkContext.stop()
-    }
-
-    //noinspection DuplicatedCode
-    def partitionByTest(sparkContext: SparkContext): Unit = {
-        val rdd1: RDD[(Int, String)] = sparkContext.makeRDD(Array((1, "jack"), (2, "ray"), (3, "geo"), (4, "paul"), (5, "slack")), 4)
-        val rdd1WithPartition: RDD[(Int, (Int, String))] = rdd1.mapPartitionsWithIndex((idx, item) => {
-            item.map((idx, _))
-        })
-        rdd1WithPartition.collect().foreach(println)
-        println(s"rdd1 partition size: ${rdd1.partitions.length}")
-
-        val rdd2: RDD[(Int, String)] = rdd1.partitionBy(new HashPartitioner(2))
-        val rdd2WithPartition: RDD[(Int, (Int, String))] = rdd2.mapPartitionsWithIndex((idx, item) => {
-            item.map((idx, _))
-        })
-        rdd2WithPartition.collect().foreach(println)
-        println(s"rdd2 partition size: ${rdd2.partitions.length}")
     }
 
     //noinspection DuplicatedCode
