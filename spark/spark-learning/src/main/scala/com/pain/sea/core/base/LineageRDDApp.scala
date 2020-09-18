@@ -1,9 +1,9 @@
-package com.pain.sea.core.lineage
+package com.pain.sea.core.base
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 
-object LineageRDD {
+object LineageRDDApp {
     def main(args: Array[String]): Unit = {
         val sparkConf = new SparkConf().setAppName("lineage").setMaster("local[*]")
         val sparkContext = new SparkContext(sparkConf)
