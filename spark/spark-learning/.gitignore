@@ -33,3 +33,4 @@ build/
 /output
 /metastore_db/
 /derby.log
+/pm/

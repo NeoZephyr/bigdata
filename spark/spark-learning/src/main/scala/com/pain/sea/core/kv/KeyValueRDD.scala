@@ -12,7 +12,7 @@ object KeyValueRDD {
         // mapValuesTest(sparkContext)
         // aggregateByKeyTest(sparkContext)
         // combineByKeyTest(sparkContext)
-//        foldByKeyTest(sparkContext)
+        foldByKeyTest(sparkContext)
         sparkContext.stop()
     }
 
