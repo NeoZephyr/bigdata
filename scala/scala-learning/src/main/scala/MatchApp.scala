@@ -1,4 +1,4 @@
-object Match {
+object MatchApp {
   def main(args: Array[String]): Unit = {
     val grade = "C"
     val name = "jack"
@@ -23,7 +23,7 @@ object Match {
 
     list match {
       case List(_) => println("only one element")
-      case x::y::Nil => println(s"two element, x = ${x}, y = ${y}")
+      case x::y::Nil => println(s"two element, x = $x, y = $y")
       case List(_, _) => println("two element")
       case List(_*) => println("many element")
       case _ => println("unknown")
