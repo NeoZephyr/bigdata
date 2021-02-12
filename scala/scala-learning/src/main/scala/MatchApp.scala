@@ -28,5 +28,23 @@ object MatchApp {
       case List(_*) => println("many element")
       case _ => println("unknown")
     }
+
+    try {
+      1 / 0
+    } catch {
+      case e: ArithmeticException => println(e.getMessage)
+      case e: Exception => println(e.getMessage)
+    }
+
+    matchType(Map(1 -> "red"))
+  }
+
+  def matchType(obj: Any): Unit = {
+    obj match {
+      case x: Int => println(s"Int: $x")
+      case s: String => println(s"String: $s")
+      case m: Map[_, _] => println(s"Map: $m")
+      case _ => println(s"unknown: $obj")
+    }
   }
 }
